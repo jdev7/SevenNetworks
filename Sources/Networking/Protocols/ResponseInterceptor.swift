@@ -1,5 +1,5 @@
 import Foundation
 
-protocol ResponseInterceptor {
+public protocol ResponseInterceptor {
     func intercept(response: URLResponse, data: Data) -> Data
 }

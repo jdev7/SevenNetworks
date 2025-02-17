@@ -1,19 +1,28 @@
 import Foundation
 
-class APIClient {
-    private let session: URLSession
+public class APIClient {
+    private let session: URLSessionProtocol
     private let baseURL: URL
     private let requestEncoder: RequestEncoder
     private let interceptors: [RequestInterceptor]
     private let responseInterceptors: [ResponseInterceptor]
     private let logger: NetworkLogger?
-    
-    init(
+
+    public convenience init(
         baseURL: URL,
         session: URLSession = .shared,
         interceptors: [RequestInterceptor] = [],
-        responseInterceptors: [ResponseInterceptor] = [],
-        logger: NetworkLogger? = ConsoleNetworkLogger()
+        responseInterceptors: [ResponseInterceptor] = []
+    ) {
+        self.init(baseURL: baseURL, session: session, interceptors: interceptors, responseInterceptors: responseInterceptors, logger: nil)
+    }
+
+    private init(
+        baseURL: URL,
+        session: URLSessionProtocol = URLSession.shared,
+        interceptors: [RequestInterceptor],
+        responseInterceptors: [ResponseInterceptor],
+        logger: NetworkLogger?
     ) {
         self.session = session
         self.baseURL = baseURL
@@ -23,7 +32,7 @@ class APIClient {
         self.logger = logger
     }
     
-    func send<T: Endpoint>(_ endpoint: T) async throws -> T.Response {
+    public func send<T: Endpoint>(_ endpoint: T) async throws -> T.Response {
         let url = baseURL.appendingPathComponent(endpoint.path)
 
         var request = URLRequest(url: url)

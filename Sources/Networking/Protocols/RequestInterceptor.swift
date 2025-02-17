@@ -1,5 +1,5 @@
 import Foundation
 
-protocol RequestInterceptor {
+public protocol RequestInterceptor {
     func intercept(request: URLRequest) -> URLRequest
 }

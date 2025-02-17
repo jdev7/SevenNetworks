@@ -1,4 +1,4 @@
-protocol Endpoint {
+public protocol Endpoint {
     associatedtype Response: Decodable
     
     var path: String { get }
